@@ -25,6 +25,10 @@ USAGE					*radiko-usage*
 >
 	:RadikoStop
 <
+	To update the station list,
+>
+	:RadikoUpdateStations
+<
 	To search stations with unite interface,
 >
 	:Unite radiko

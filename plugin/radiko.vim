@@ -11,9 +11,9 @@ let g:loaded_radiko = 1
 let s:save_cpo = &cpo
 set cpo&vim
 
-command! RadikoUpdateStations call radiko#update_stations()
 command! -nargs=1 RadikoPlay call radiko#play(<f-args>)
 command! RadikoStop call radiko#stop()
+command! RadikoUpdateStations call radiko#update_stations()
 
 augroup Radiko
     autocmd!

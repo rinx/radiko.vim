@@ -18,6 +18,7 @@ Usage
 
 * `:RadikoPlay <station_id>` : Play radiko station.
 * `:RadikoStop` : Stop the playing radiko station.
+* `:RadikoUpdateStations` : Update the station list.
 * `:Unite radiko` : Search stations with Unite interface.
 
 
