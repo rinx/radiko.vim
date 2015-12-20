@@ -26,7 +26,9 @@ function! radiko#play(staid)
             call radiko#stop()
             call writefile([play_command], g:radiko#cache_dir . '/player.sh')
             call s:PM.touch('radiko_play', 'sh ' . g:radiko#cache_dir . '/player.sh')
-            " echo 'Playing ' . station.name . '.'
+            let stations = radiko#get_stations()
+            let nowsta = filter(copy(stations), 'v:val.id == "' . a:staid . '"')
+            echo 'Playing ' . nowsta[0].name . '.'
         else
             echo 'Error: vimproc is unavailable.'
         endif
