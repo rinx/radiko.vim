@@ -13,8 +13,9 @@ let s:L = s:V.import('Data.List')
 let g:radiko#radiko_playername = 'player_4.1.0.00.swf'
 let g:radiko#play_command = get(g:, 'radiko#play_command', "rtmpdump -v -r 'rtmpe://f-radiko.smartstream.ne.jp' --app '%%STA_ID%%/_definst_' --playpath 'simul-stream.stream' -W 'http://radiko.jp/player/swf/" . g:radiko#radiko_playername . "' -C  S:'' -C S:'' -C S:'' -C S:%%AUTH_TOKEN%% --live --quiet | mplayer - -really-quiet")
 let g:radiko#cache_dir = get(g:, 'radiko#cache_dir', expand("~/.cache/radiko-vim"))
-let g:radiko#cache_version = '1.0'
-let g:radiko#cache_previous_version = ''
+let g:radiko#cache_file = get(g:, 'radiko#cache_file', 'stations.cache')
+
+let s:stations_cache = s:CACHE.new('file', {'cache_dir': g:radiko#cache_dir})
 
 " Player
 function! radiko#play(staid)
@@ -62,9 +63,10 @@ function! radiko#stop()
 endfunction
 
 function! radiko#update_stations()
-    let stations = radiko#get_stations()
+    let stations = radiko#fetch_stations()
+    call s:stations_cache.set(g:radiko#cache_file, stations)
 endfunction
-function! radiko#get_stations()
+function! radiko#fetch_stations()
     let [authtoken, auth2_fms] = radiko#auth()
     let area_id = matchstr(auth2_fms, '\(\d\|\a\)*\ze,')
     let data = s:XML.parseURL('http://radiko.jp/v2/station/list/' . area_id . '.xml')
@@ -75,6 +77,15 @@ function! radiko#get_stations()
                 \ "channel_xml": "http://radiko.jp/v2/station/stream/" . v:val.childNode("id").value(). ".xml"
                 \ }')
     return stations
+endfunction
+
+function! radiko#get_stations()
+    if s:stations_cache.has(g:radiko#cache_file)
+        return s:stations_cache.get(g:radiko#cache_file)
+    else
+        call radiko#update_stations()
+        return s:stations_cache.get(g:radiko#cache_file)
+    endif
 endfunction
 
 function! radiko#auth()
