@@ -1,0 +1,40 @@
+*radiko.txt*	You can enjoy radiko with Vim.
+
+Version: 0.0.1
+Author: Rintaro Okamura <rintaro.okamura@gmail.com>
+License: MIT License
+
+CONTENTS				*radiko-contents*
+
+	Install				|radiko-install|
+	Usage				|radiko-usage|
+	References			|radiko-references|
+
+==============================================================================
+INSTALL					*radiko-install*
+
+
+==============================================================================
+USAGE					*radiko-usage*
+
+	To listen radiko station whose id is [station_id],
+>
+	:RadikoPlay [station_id]
+<
+	To stop the playing radiko station,
+>
+	:RadikoStop
+<
+	To search stations with unite interface,
+>
+	:Unite radiko
+<
+
+
+==============================================================================
+REFERENCES				*radiko-references*
+
+	unite.vim:		https://github.com/Shougo/unite.vim
+
+
+vim:tw=78:fo=tcq2mM:ts=8:ft=help:norl
