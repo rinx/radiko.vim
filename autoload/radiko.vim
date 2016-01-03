@@ -10,7 +10,7 @@ let s:XML = s:V.import('Web.XML')
 let s:L = s:V.import('Data.List')
 
 " config
-let g:radiko#radiko_playername = 'player_4.1.0.00.swf'
+let g:radiko#radiko_playername = get(g:, 'radiko#radiko_playername', 'player_4.1.0.00.swf')
 let g:radiko#play_command = get(g:, 'radiko#play_command', "rtmpdump -v -r 'rtmpe://f-radiko.smartstream.ne.jp' --app '%%STA_ID%%/_definst_' --playpath 'simul-stream.stream' -W 'http://radiko.jp/player/swf/" . g:radiko#radiko_playername . "' -C  S:'' -C S:'' -C S:'' -C S:%%AUTH_TOKEN%% --live --quiet | mplayer - -really-quiet")
 let g:radiko#cache_dir = get(g:, 'radiko#cache_dir', expand("~/.cache/radiko-vim"))
 let g:radiko#cache_file = get(g:, 'radiko#cache_file', 'stations.cache')
