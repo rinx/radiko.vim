@@ -26,8 +26,12 @@ endfunction
 function! s:source.gather_candidates(args, context)
     let stations = radiko#get_stations()
 
+    let ids = map(copy(stations), 'v:val["id"]')
+    let max_id_len = max(map(copy(ids), 'len(v:val)'))
+    let format = '%-' . max_id_len . 's - %s'
+
     return map(stations, '{
-                \   "word": v:val["name"],
+                \   "word": printf(format, v:val["id"], v:val["name"]),
                 \   "action__station_id": v:val["id"]
                 \ }')
 endfunction
