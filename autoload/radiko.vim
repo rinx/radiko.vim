@@ -16,6 +16,7 @@ let g:radiko#cache_dir = get(g:, 'radiko#cache_dir', expand("~/.cache/radiko-vim
 let g:radiko#cache_file = get(g:, 'radiko#cache_file', 'stations.cache')
 
 let s:stations_cache = s:CACHE.new('file', {'cache_dir': g:radiko#cache_dir})
+let g:radiko#now_playing = ''
 
 " Player
 function! radiko#play(staid)
@@ -29,7 +30,7 @@ function! radiko#play(staid)
             let stations = radiko#get_stations()
             let nowsta = filter(copy(stations), 'v:val.id == "' . a:staid . '"')
             echo 'Playing ' . nowsta[0].name . '.'
-            call writefile([nowsta[0].name], g:radiko#cache_dir . '/nowstation.txt')
+            let g:radiko#now_playing = nowsta[0].name
         else
             echo 'Error: vimproc is unavailable.'
         endif
@@ -65,11 +66,11 @@ function! radiko#stop()
     endif
 endfunction
 
-function!radiko#get_playing_station()
+function! radiko#get_playing_station()
     if radiko#is_playing()
-        let nowstanames = readfile(g:radiko#cache_dir . '/nowstation.txt')
-        return nowstanames[0]
+        return g:radiko#now_playing
     else
+        let g:radiko#now_playing = ''
         return 0
     endif
 endfunction
