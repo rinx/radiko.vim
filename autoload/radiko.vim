@@ -29,6 +29,7 @@ function! radiko#play(staid)
             let stations = radiko#get_stations()
             let nowsta = filter(copy(stations), 'v:val.id == "' . a:staid . '"')
             echo 'Playing ' . nowsta[0].name . '.'
+            call writefile([nowsta[0].name], g:radiko#cache_dir . '/nowstation.txt')
         else
             echo 'Error: vimproc is unavailable.'
         endif
@@ -61,6 +62,15 @@ endfunction
 function! radiko#stop()
     if radiko#is_playing()
         return s:PM.kill('radiko_play')
+    endif
+endfunction
+
+function!radiko#get_playing_station()
+    if radiko#is_playing()
+        let nowstanames = readfile(g:radiko#cache_dir . '/nowstation.txt')
+        return nowstanames[0]
+    else
+        return 0
     endif
 endfunction
 
