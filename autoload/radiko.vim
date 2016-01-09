@@ -17,6 +17,7 @@ let g:radiko#cache_file = get(g:, 'radiko#cache_file', 'stations.cache')
 
 let s:stations_cache = s:CACHE.new('file', {'cache_dir': g:radiko#cache_dir})
 let g:radiko#now_playing = ''
+let g:radiko#now_playing_id = ''
 
 " Player
 function! radiko#play(staid)
@@ -31,6 +32,7 @@ function! radiko#play(staid)
             let nowsta = filter(copy(stations), 'v:val.id == "' . a:staid . '"')
             echo 'Playing ' . nowsta[0].name . '.'
             let g:radiko#now_playing = nowsta[0].name
+            let g:radiko#now_playing_id = nowsta[0].id
         else
             echo 'Error: vimproc is unavailable.'
         endif
@@ -71,6 +73,15 @@ function! radiko#get_playing_station()
         return g:radiko#now_playing
     else
         let g:radiko#now_playing = ''
+        return 0
+    endif
+endfunction
+
+function! radiko#get_playing_station_id()
+    if radiko#is_playing()
+        return g:radiko#now_playing_id
+    else
+        let g:radiko#now_playing_id = ''
         return 0
     endif
 endfunction
