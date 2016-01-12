@@ -14,6 +14,13 @@ CONTENTS				*radiko-contents*
 ==============================================================================
 INSTALL					*radiko-install*
 
+This plugin requires |swftools|, |rtmpdump| and |mplayer|.
+If you use OSX and homebrew, you can get them using following commands:
+>
+	$ brew install swftools
+	$ brew install rtmpdump
+	$ brew install mplayer
+<
 
 ==============================================================================
 USAGE					*radiko-usage*
