@@ -8,6 +8,7 @@ CONTENTS				*radiko-contents*
 
 	Install				|radiko-install|
 	Usage				|radiko-usage|
+	Configure			|radiko-configure|
 	Functions			|radiko-functions|
 	References			|radiko-references|
 
@@ -41,6 +42,11 @@ USAGE					*radiko-usage*
 >
 	:Unite radiko
 <
+
+==============================================================================
+CONFIGURE				*radiko-configure*
+
+
 
 ==============================================================================
 FUNCTIONS				*radiko-functions*
