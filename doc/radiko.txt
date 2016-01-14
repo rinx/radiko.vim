@@ -46,6 +46,21 @@ USAGE					*radiko-usage*
 ==============================================================================
 CONFIGURE				*radiko-configure*
 
+*g:radiko#radiko_playername*
+
+
+*g:radiko#play_command*
+
+
+*g:radiko#cache_dir*
+
+
+*g:radiko#cache_file*
+
+
+*s:stations_cache*
+
+
 
 
 ==============================================================================
