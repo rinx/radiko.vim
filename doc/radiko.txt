@@ -66,6 +66,13 @@ CONFIGURE				*radiko-configure*
 ==============================================================================
 FUNCTIONS				*radiko-functions*
 
+*radiko#is_playing()*
+
+
+*radiko#get_playing_station()*
+
+
+*radiko#get_playing_station_id()*
 
 
 ==============================================================================
