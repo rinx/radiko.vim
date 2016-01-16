@@ -68,12 +68,16 @@ FUNCTIONS				*radiko-functions*
 
 *radiko#is_playing()*
 
+    If it is playing a station, it returns 1.
+    If it is not playing, it returns 0.
 
 *radiko#get_playing_station()*
 
+    It returns the station name which you are listening.
 
 *radiko#get_playing_station_id()*
 
+    It returns the station id which you are listening.
 
 ==============================================================================
 REFERENCES				*radiko-references*
