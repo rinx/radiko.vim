@@ -48,10 +48,13 @@ CONFIGURE				*radiko-configure*
 
 *g:radiko#radiko_playername*
 
-    This is a technical variable. It represents the name of swf player on radiko.jp.
+    This is a technical variable.
+    It represents the name of swf player on radiko.jp.
 
 *g:radiko#play_command*
 
+    This is a technical variable.
+    It will be written in the player shell script.
 
 *g:radiko#cache_dir*
 
