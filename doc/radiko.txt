@@ -58,12 +58,13 @@ CONFIGURE				*radiko-configure*
 
 *g:radiko#cache_dir*
 
+    This is a path of directory to save temporary files.
+    The default is `~/.cache/radiko-vim`.
 
 *g:radiko#cache_file*
 
-
-*s:stations_cache*
-
+    This is a filename of stations list.
+    The default is `stations.cache`.
 
 
 
