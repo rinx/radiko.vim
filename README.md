@@ -22,6 +22,12 @@ Usage
 * `:Unite radiko` : Search stations with Unite interface.
 
 
+Functions
+---
+
+There are useful functions to provide informations in this plugin.
+Please read the document by using `:help radiko` command.
+
 License
 ---
 MIT License
