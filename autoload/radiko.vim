@@ -19,6 +19,9 @@ let s:stations_cache = s:CACHE.new('file', {'cache_dir': g:radiko#cache_dir})
 let g:radiko#now_playing = ''
 let g:radiko#now_playing_id = ''
 
+let g:radiko#cache_rn2 = get(g:, 'radiko#cache_rn2', 'rn2_music.cache')
+let g:radiko#cache_rn2_time = get(g:, 'radiko#cache_rn2_time', 3600)
+
 " Player
 function! radiko#play(staid)
     if executable('mplayer')
@@ -109,6 +112,28 @@ function! radiko#get_stations()
     else
         call radiko#update_stations()
         return s:stations_cache.get(g:radiko#cache_file)
+    endif
+endfunction
+
+function! radiko#update_rn2_music()
+    let musics = radiko#fetch_rn2_music()
+    call s:stations_cache.set(g:radiko#cache_rn2, musics)
+endfunction
+function! radiko#fetch_rn2_music()
+    let musics = s:JSON.decode(s:HTTP.get('http://www.radionikkei.jp/rn2/json/json.php').content)
+    return musics
+endfunction
+
+function! radiko#get_rn2_musics()
+    if s:stations_cache.has(g:radiko#cache_rn2)
+        let lasttime = getftime(g:radiko#cache_dir . '/' . g:radiko#cache_rn2)
+        if (localtime() - lasttime) > g:radiko#cache_rn2_time
+            call radiko#update_rn2_music()
+        endif
+        return s:stations_cache.get(g:radiko#cache_rn2)
+    else
+        call radiko#update_rn2_music()
+        return s:stations_cache.get(g:radiko#cache_rn2)
     endif
 endfunction
 
