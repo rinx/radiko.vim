@@ -89,6 +89,19 @@ function! radiko#get_playing_station_id()
     endif
 endfunction
 
+function! radiko#get_playing_rn2_music()
+    if radiko#is_playing()
+        let pid = g:radiko#now_playing_id
+        if pid == "RN2"
+            let musics = radiko#get_rn2_musics()
+            let res = musics[0].title . ' - ' . musics[0].artist
+            return res
+        endif
+    else
+        return 0
+    endif
+endfunction
+
 function! radiko#update_stations()
     let stations = radiko#fetch_stations()
     call s:stations_cache.set(g:radiko#cache_file, stations)
