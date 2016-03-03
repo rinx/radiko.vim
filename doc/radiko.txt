@@ -84,6 +84,10 @@ FUNCTIONS				*radiko-functions*
 
     It returns the station id which you are listening.
 
+*radiko#get_playing_rn2_music()*
+
+    It returns the title and artist of playing song when you are playing RN2.
+
 ==============================================================================
 REFERENCES				*radiko-references*
 
