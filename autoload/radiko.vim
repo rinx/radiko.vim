@@ -94,8 +94,18 @@ function! radiko#get_playing_rn2_music()
         let pid = g:radiko#now_playing_id
         if pid == "RN2"
             let musics = radiko#get_rn2_musics()
-            let res = musics[0].title . ' - ' . musics[0].artist
-            return res
+            let ltime = localtime()
+            let ctime = str2nr(strftime("%H", ltime), 10) * 3600 +
+                        \ str2nr(strftime("%M", ltime), 10) * 60 +
+                        \ str2nr(strftime("%S", ltime))
+            let mtime = 0
+            let i = -1
+            while mtime < ctime
+                let i += 1
+                let t = map(split(musics[i].time, ':'), 'str2nr(v:val)')
+                let mtime = t[0] * 3600 + t[1] * 60 + t[2]
+            endwhile
+            return [musics[i-1].title, musics[i-1].artist]
         endif
     else
         return 0
