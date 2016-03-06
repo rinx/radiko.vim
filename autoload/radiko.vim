@@ -124,10 +124,14 @@ function! radiko#get_next_rn2_music()
 endfunction
 
 function! radiko#get_rn2_musics_by_time(musics, ttime)
+    let mlistlen = len(a:musics)
     let mtime = 0
     let i = -1
     while mtime < a:ttime
         let i += 1
+        if i >= mlistlen
+            return i-1
+        endif
         let t = map(split(a:musics[i].time, ':'), 'str2nr(v:val)')
         let mtime = t[0] * 3600 + t[1] * 60 + t[2]
     endwhile
