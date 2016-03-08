@@ -90,37 +90,23 @@ function! radiko#get_playing_station_id()
 endfunction
 
 function! radiko#get_playing_rn2_music()
-    if radiko#is_playing()
-        let pid = g:radiko#now_playing_id
-        if pid == "RN2"
-            let musics = radiko#get_rn2_musics()
-            let ltime = localtime()
-            let ctime = str2nr(strftime("%H", ltime), 10) * 3600 +
-                        \ str2nr(strftime("%M", ltime), 10) * 60 +
-                        \ str2nr(strftime("%S", ltime))
-            let i = radiko#get_rn2_musics_by_time(musics, ctime)
-            return [musics[i-1].title, musics[i-1].artist]
-        endif
-    else
-        return 0
-    endif
+    let musics = radiko#get_rn2_musics()
+    let ltime = localtime()
+    let ctime = str2nr(strftime("%H", ltime), 10) * 3600 +
+                \ str2nr(strftime("%M", ltime), 10) * 60 +
+                \ str2nr(strftime("%S", ltime))
+    let i = radiko#get_rn2_musics_by_time(musics, ctime)
+    return [musics[i-1].title, musics[i-1].artist]
 endfunction
 
 function! radiko#get_next_rn2_music()
-    if radiko#is_playing()
-        let pid = g:radiko#now_playing_id
-        if pid == "RN2"
-            let musics = radiko#get_rn2_musics()
-            let ltime = localtime()
-            let ctime = str2nr(strftime("%H", ltime), 10) * 3600 +
-                        \ str2nr(strftime("%M", ltime), 10) * 60 +
-                        \ str2nr(strftime("%S", ltime))
-            let i = radiko#get_rn2_musics_by_time(musics, ctime)
-            return [musics[i].title, musics[i].artist]
-        endif
-    else
-        return 0
-    endif
+    let musics = radiko#get_rn2_musics()
+    let ltime = localtime()
+    let ctime = str2nr(strftime("%H", ltime), 10) * 3600 +
+                \ str2nr(strftime("%M", ltime), 10) * 60 +
+                \ str2nr(strftime("%S", ltime))
+    let i = radiko#get_rn2_musics_by_time(musics, ctime)
+    return [musics[i].title, musics[i].artist]
 endfunction
 
 function! radiko#get_rn2_musics_by_time(musics, ttime)
