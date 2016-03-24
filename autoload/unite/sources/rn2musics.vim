@@ -19,6 +19,27 @@ let s:source = {
       \   '__counter' : 0
       \ }
 
+function! s:get_str_disp_len(str)
+    let stdlen = len(a:str)
+    let mltlen = len(substitute(a:str, '.', 'x', 'g'))
+    if stdlen != mltlen
+        return stdlen - ((stdlen - mltlen) / 2)
+    else
+        return stdlen
+    endif
+endfunction
+
+function! s:name_formatter(max_timestr_len, max_title_len, title)
+    let stdlen = len(a:title)
+    let mltlen = len(substitute(a:title, '.', 'x', 'g'))
+    if stdlen != mltlen
+        let ret_len = ((stdlen - mltlen) / 2) + a:max_title_len
+    else
+        let ret_len = a:max_title_len
+    endif
+    return '[%-' . a:max_timestr_len . 's] ' . '%-' . ret_len . 's - %s'
+endfunction
+
 function! s:source.action_table.play.func(candidate)
   call radiko#play(a:candidate.action__station_id)
 endfunction
@@ -28,10 +49,11 @@ function! s:source.gather_candidates(args, context)
 
     let times = map(copy(musics), 'v:val.time')
     let max_timestr_len = max(map(copy(times), 'len(v:val)'))
-    let format = '[%-' . max_timestr_len . 's] %s - %s'
+    let titles = map(copy(musics), 'v:val.title')
+    let max_title_len = max(map(copy(titles), 's:get_str_disp_len(v:val)'))
 
     return map(musics, '{
-                \   "word": printf(format, v:val.time, v:val.title, v:val.artist),
+                \   "word": printf(s:name_formatter(max_timestr_len, max_title_len, v:val.title), v:val.time, v:val.title, v:val.artist),
                 \   "action__station_id": "RN2"
                 \ }')
 endfunction
