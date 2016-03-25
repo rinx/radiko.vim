@@ -37,14 +37,28 @@ function! s:name_formatter(max_timestr_len, max_title_len, title)
     else
         let ret_len = a:max_title_len
     endif
-    return '[%-' . a:max_timestr_len . 's] ' . '%-' . ret_len . 's - %s'
+    return '%-3s[%-' . a:max_timestr_len . 's] ' . '%-' . ret_len . 's - %s'
+endfunction
+
+function! s:isthissong(stime)
+    let ltime = localtime()
+    let ctime = str2nr(strftime("%H", ltime), 10) * 3600 +
+                \ str2nr(strftime("%M", ltime), 10) * 60 +
+                \ str2nr(strftime("%S", ltime))
+    let t = map(split(a:stime, ':'), 'str2nr(v:val)')
+    let mtime = t[0] * 3600 + t[1] * 60 + t[2]
+    if mtime < ctime
+        return '->'
+    else
+        return ''
+    endif
 endfunction
 
 function! s:source.action_table.play.func(candidate)
   call radiko#play(a:candidate.action__station_id)
 endfunction
 
-function! s:source.gather_candidates(args, context)
+function! s:source.async_gather_candidates(args, context)
     let musics = radiko#get_rn2_musics()
 
     let times = map(copy(musics), 'v:val.time')
@@ -53,7 +67,7 @@ function! s:source.gather_candidates(args, context)
     let max_title_len = max(map(copy(titles), 's:get_str_disp_len(v:val)'))
 
     return map(musics, '{
-                \   "word": printf(s:name_formatter(max_timestr_len, max_title_len, v:val.title), v:val.time, v:val.title, v:val.artist),
+                \   "word": printf(s:name_formatter(max_timestr_len, max_title_len, v:val.title), s:isthissong(v:val.time), v:val.time, v:val.title, v:val.artist),
                 \   "action__station_id": "RN2"
                 \ }')
 endfunction
