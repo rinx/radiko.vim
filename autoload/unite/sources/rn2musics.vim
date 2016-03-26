@@ -66,6 +66,7 @@ function! s:source.async_gather_candidates(args, context)
     let titles = map(copy(musics), 'v:val.title')
     let max_title_len = max(map(copy(titles), 's:get_str_disp_len(v:val)'))
 
+    let a:context.source.unite__cached_candidates = []
     return map(musics, '{
                 \   "word": printf(s:name_formatter(max_timestr_len, max_title_len, v:val.title), s:isthissong(v:val.time), v:val.time, v:val.title, v:val.artist),
                 \   "action__station_id": "RN2"
