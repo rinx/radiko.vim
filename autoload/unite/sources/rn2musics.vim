@@ -29,7 +29,7 @@ function! s:get_str_disp_len(str)
     endif
 endfunction
 
-function! s:name_formatter(max_timestr_len, max_title_len, title)
+function! s:name_formatter(max_timestr_len, max_title_len, label_len, title)
     let stdlen = len(a:title)
     let mltlen = len(substitute(a:title, '.', 'x', 'g'))
     if stdlen != mltlen
@@ -37,15 +37,7 @@ function! s:name_formatter(max_timestr_len, max_title_len, title)
     else
         let ret_len = a:max_title_len
     endif
-    return '%-3s[%-' . a:max_timestr_len . 's] ' . '%-' . ret_len . 's - %s'
-endfunction
-
-function! s:isthissong(current_music_id, music_id)
-    if a:current_music_id == a:music_id
-        return '->'
-    else
-        return ''
-    endif
+    return '%-' . a:label_len . 's[%-' . a:max_timestr_len . 's] ' . '%-' . ret_len . 's - %s'
 endfunction
 
 function! s:source.action_table.play.func(candidate)
@@ -67,9 +59,17 @@ function! s:source.async_gather_candidates(args, context)
     let current_music_num = radiko#get_rn2_musics_by_time(musics, ctime)
     let current_music_id = musics[current_music_num - 1].id
 
+    let label = radiko#is_playing() ? g:radiko#unite_nowplaying_labels[self.__counter] : ''
+    let label_len = len(label) > 0 ? len(label) + 1 : 0
+    if self.__counter == len(g:radiko#unite_nowplaying_labels) - 1
+      let self.__counter = 0
+    else
+      let self.__counter += 1
+    endif
+
     let a:context.source.unite__cached_candidates = []
     return map(musics, '{
-                \   "word": printf(s:name_formatter(max_timestr_len, max_title_len, v:val.title), s:isthissong(current_music_id, v:val.id), v:val.time, v:val.title, v:val.artist),
+                \   "word": printf(s:name_formatter(max_timestr_len, max_title_len, label_len, v:val.title), current_music_id == v:val.id ? label : "", v:val.time, v:val.title, v:val.artist),
                 \   "action__station_id": "RN2"
                 \ }')
 endfunction
