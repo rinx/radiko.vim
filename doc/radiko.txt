@@ -42,6 +42,11 @@ USAGE					*radiko-usage*
 >
 	:Unite radiko
 <
+	To show music lists of RN2
+>
+	:Unite rn2musics
+<
+
 
 ==============================================================================
 CONFIGURE				*radiko-configure*

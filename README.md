@@ -21,6 +21,7 @@ Usage
 * `:RadikoUpdateStations` : Update the station list.
 * `:Unite radiko` : Search stations with Unite interface.
 
+* `:Unite rn2musics` : Show RN2 music list.
 
 Functions
 ---
