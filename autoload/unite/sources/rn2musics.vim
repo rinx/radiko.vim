@@ -59,7 +59,7 @@ function! s:source.async_gather_candidates(args, context)
     let current_music_num = radiko#get_rn2_musics_by_time(musics, ctime)
     let current_music_id = musics[current_music_num - 1].id
 
-    let label = radiko#is_playing() ? g:radiko#unite_nowplaying_labels[self.__counter] : ''
+    let label = g:radiko#unite_nowplaying_labels[self.__counter]
     let label_len = len(label) > 0 ? len(label) + 1 : 0
     if self.__counter == len(g:radiko#unite_nowplaying_labels) - 1
       let self.__counter = 0
