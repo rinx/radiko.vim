@@ -22,7 +22,7 @@ let g:radiko#now_playing_id = ''
 let g:radiko#cache_rn2 = get(g:, 'radiko#cache_rn2', 'rn2_music.cache')
 let g:radiko#cache_rn2_time = get(g:, 'radiko#cache_rn2_time', 3600)
 
-let g:radiko#unite_nowplaying_labels = get(g:, 'radiko#untie_nowplaying_labels', [
+let g:radiko#unite_nowplaying_labels = get(g:, 'radiko#unite_nowplaying_labels', [
             \ '   N',
             \ '  No',
             \ ' Now',
