@@ -13,6 +13,9 @@ let s:source = {
       \   'action_table' : {
       \     'play' : {
       \       'description' : 'Play this station',
+      \     },
+      \     'search' : {
+      \       'description' : 'Search this song',
       \     }
       \   },
       \   'default_action' : 'play',
@@ -44,6 +47,10 @@ function! s:source.action_table.play.func(candidate)
   call radiko#play(a:candidate.action__station_id)
 endfunction
 
+function! s:source.action_table.search.func(candidate)
+  call openbrowser#_cmd_open_browser_search(a:candidate.action__search_words)
+endfunction
+
 function! s:source.async_gather_candidates(args, context)
     let musics = radiko#get_rn2_musics()
 
@@ -70,6 +77,7 @@ function! s:source.async_gather_candidates(args, context)
     let a:context.source.unite__cached_candidates = []
     return map(musics, '{
                 \   "word": printf(s:name_formatter(max_timestr_len, max_title_len, label_len, v:val.title), current_music_id == v:val.id ? label : "", v:val.time, v:val.title, v:val.artist),
+                \   "action__search_words": v:val.title . " " . v:val.artist,
                 \   "action__station_id": "RN2"
                 \ }')
 endfunction
