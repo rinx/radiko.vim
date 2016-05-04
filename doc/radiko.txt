@@ -46,6 +46,7 @@ USAGE					*radiko-usage*
 >
 	:Unite rn2musics
 <
+        * For using rn2musics/search action, `open-browser.vim` is required.
 
 
 ==============================================================================
