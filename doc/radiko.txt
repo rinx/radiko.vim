@@ -99,6 +99,7 @@ FUNCTIONS				*radiko-functions*
 REFERENCES				*radiko-references*
 
 	unite.vim:		https://github.com/Shougo/unite.vim
+	open-browser.vim	https://github.com/tyru/open-browser.vim
 
 
 vim:tw=78:fo=tcq2mM:ts=8:ft=help:norl
