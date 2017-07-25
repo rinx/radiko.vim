@@ -1,0 +1,5 @@
+call themis#helper('command').with(themis#helper('assert'))
+
+let g:root = fnamemodify(expand('<sfile>'), ':h:h')
+call themis#option('runtimepath', g:root)
+

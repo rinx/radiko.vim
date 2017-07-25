@@ -1,0 +1,19 @@
+Describe radiko
+
+  Before
+    let g:radiko#radiko_playername = 'player_4.1.0.00.swf'
+    let g:radiko#play_command = "rtmpdump -v -r 'rtmpe://f-radiko.smartstream.ne.jp' --app '%%STA_ID%%/_definst_' --playpath 'simul-stream.stream' -W 'http://radiko.jp/player/swf/" . g:radiko#radiko_playername . "' -C  S:'' -C S:'' -C S:'' -C S:%%AUTH_TOKEN%% --live --quiet | mplayer - -really-quiet"
+  End
+
+  It correct play command name
+    let res = radiko#gen_play_command('authToken', 'stationId')
+    let expect = "rtmpdump -v -r 'rtmpe://f-radiko.smartstream.ne.jp' --app 'stationId/_definst_' --playpath 'simul-stream.stream' -W 'http://radiko.jp/player/swf/player_4.1.0.00.swf' -C  S:'' -C S:'' -C S:'' -C S:authToken --live --quiet | mplayer - -really-quiet"
+    Assert Equals(res, expect)
+  End
+
+  It not playing
+    let res = radiko#is_playing()
+    Assert Equals(res, 0)
+  End
+
+End
