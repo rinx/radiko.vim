@@ -1,10 +1,13 @@
 language: generic
 
-before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install -y rtmpdump
-  - sudo apt-get install -y swftools
-  - sudo apt-get install -y mplayer
+sudo: false
+
+addons:
+  apt:
+    packages:
+    - mplayer
+    - swftools
+    - rtmpdump
 
 install:
   - git clone --depth 1 --branch v1.5.3 --single-branch https://github.com/thinca/vim-themis /tmp/vim-themis
