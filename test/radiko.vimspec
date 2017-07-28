@@ -16,4 +16,14 @@ Describe radiko
     Assert Equals(res, 0)
   End
 
+  It no playing station
+    let res = radiko#get_playing_station()
+    Assert Equals(res, 0)
+  End
+
+  It no playing station id
+    let res = radiko#get_playing_station_id()
+    Assert Equals(res, 0)
+  End
+
 End
