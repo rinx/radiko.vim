@@ -1,4 +1,6 @@
 radiko.vim
+[![Build Status](https://travis-ci.org/rinx/radiko.vim.svg?branch=master)](https://travis-ci.org/rinx/radiko.vim)
+[![Powered by vital.vim](https://img.shields.io/badge/powered%20by-vital.vim-80273f.svg)](https://github.com/vim-jp/vital.vim)
 ===
 You can enjoy radiko with Vim.
 
@@ -8,6 +10,7 @@ Dependencies
 
 * Vim
 * Unite.vim (https://github.com/Shougo/unite.vim)
+* vimproc.vim (https://github.com/Shougo/vimproc.vim)
 * mplayer
 * rtmpdump
 * swftools
