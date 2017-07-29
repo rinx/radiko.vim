@@ -5,6 +5,13 @@ Describe radiko
     let g:radiko#play_command = "rtmpdump -v -r 'rtmpe://f-radiko.smartstream.ne.jp' --app '%%STA_ID%%/_definst_' --playpath 'simul-stream.stream' -W 'http://radiko.jp/player/swf/" . g:radiko#radiko_playername . "' -C  S:'' -C S:'' -C S:'' -C S:%%AUTH_TOKEN%% --live --quiet | mplayer - -really-quiet"
   End
 
+  It ProcessManager available
+    let s:V = vital#of('radiko')
+    let s:PM = s:V.import('ProcessManager')
+    let res = s:PM.is_available()
+    Assert Equals(res, 1)
+  End
+
   It correct play command name
     let res = radiko#gen_play_command('authToken', 'stationId')
     let expect = "rtmpdump -v -r 'rtmpe://f-radiko.smartstream.ne.jp' --app 'stationId/_definst_' --playpath 'simul-stream.stream' -W 'http://radiko.jp/player/swf/player_4.1.0.00.swf' -C  S:'' -C S:'' -C S:'' -C S:authToken --live --quiet | mplayer - -really-quiet"
@@ -24,6 +31,27 @@ Describe radiko
   It no playing station id
     let res = radiko#get_playing_station_id()
     Assert Equals(res, 0)
+  End
+
+  It get swf correctly
+    let res = radiko#get_swf(g:radiko#radiko_playername)
+    Assert Equals(res, 0)
+  End
+
+  It extract authkey correctly
+    let res = radiko#extract_authkey(g:radiko#radiko_playername)
+    Assert Equals(res, 0)
+  End
+
+  It authorization
+    let [authtoken, auth2_fms] = radiko#auth()
+    Assert NotEmpty(authtoken)
+    Assert NotEmpty(auth2_fms)
+  End
+
+  It fetch stations
+    let res = radiko#fetch_stations()
+    Assert NotEmpty(res)
   End
 
 End

@@ -248,11 +248,14 @@ function! radiko#get_swf(playername)
                         \   "background": 0
                         \ }
                         \)
+            return 0
         else
             echo 'Error: wget does not exist.'
+            return 1
         endif
     else
         echo 'Error: vimproc is unavailable.'
+        return 2
     endif
 endfunction
 function! radiko#extract_authkey(playername)
@@ -267,11 +270,14 @@ function! radiko#extract_authkey(playername)
                         \   "background": 0
                         \ }
                         \)
+            return 0
         else
             echo 'Error: swfextract does not exist.'
+            return 1
         endif
     else
         echo 'Error: vimproc is unavailable.'
+        return 2
     endif
 endfunction
 function! radiko#extract_partialkey(offset, length)

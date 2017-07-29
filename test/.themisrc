@@ -3,3 +3,10 @@ call themis#helper('command').with(themis#helper('assert'))
 let g:root = fnamemodify(expand('<sfile>'), ':h:h')
 call themis#option('runtimepath', g:root)
 
+if strlen($VIMPROC_ROOT) != 0
+    let g:vimproc_root = $VIMPROC_ROOT
+else
+    let g:vimproc_root = g:root . '/../../Shougo/vimproc.vim'
+endif
+
+call themis#option('runtimepath', g:vimproc_root)

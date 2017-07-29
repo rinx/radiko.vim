@@ -11,6 +11,10 @@ addons:
 
 install:
   - git clone --depth 1 --branch v1.5.3 --single-branch https://github.com/thinca/vim-themis /tmp/vim-themis
+  - git clone --depth 1 --branch ver.9.3 --single-branch https://github.com/Shougo/vimproc.vim.git /tmp/vimproc.vim &&
+    cd /tmp/vimproc.vim &&
+    make &&
+    cd $TRAVIS_BUILD_DIR
   # install newest version of vim
   - git clone https://github.com/vim/vim /tmp/vim &&
     cd /tmp/vim &&
