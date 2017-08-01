@@ -198,24 +198,7 @@ function! radiko#auth()
         call radiko#extract_authkey(g:radiko#radiko_playername)
     endif
 
-    " HTTP request to get auth1_fms
-    let auth1_fms = s:HTTP.parseHeader(
-                \ s:HTTP.request('get', 'https://radiko.jp/v2/api/auth1_fms',
-                \ {
-                \   "data": "\r\n",
-                \   "headers": {
-                \     "pragma": "no-cache",
-                \     "X-Radiko-App": "pc_1",
-                \     "X-Radiko-App-Version": "2.0.1",
-                \     "X-Radiko-User": "test-stream",
-                \     "X-Radiko-Device": "pc"
-                \   },
-                \   "client": ["wget"]
-                \ }).header)
-
-    let authtoken = auth1_fms['X-Radiko-AuthToken']
-    let offset    = auth1_fms['X-Radiko-KeyOffset']
-    let length    = auth1_fms['X-Radiko-KeyLength']
+    let [authtoken, offset, length] = radiko#auth_auth1_fms()
 
     let partialkey = radiko#extract_partialkey(offset, length)
 
@@ -235,6 +218,27 @@ function! radiko#auth()
                 \   "client": ["wget"]
                 \ }).content
     return [authtoken, auth2_fms]
+endfunction
+function! radiko#auth_auth1_fms()
+    " HTTP request to get auth1_fms
+    let auth1_fms = s:HTTP.parseHeader(
+                \ s:HTTP.request('get', 'https://radiko.jp/v2/api/auth1_fms',
+                \ {
+                \   "data": "\r\n",
+                \   "headers": {
+                \     "pragma": "no-cache",
+                \     "X-Radiko-App": "pc_1",
+                \     "X-Radiko-App-Version": "2.0.1",
+                \     "X-Radiko-User": "test-stream",
+                \     "X-Radiko-Device": "pc"
+                \   },
+                \   "client": ["wget"]
+                \ }).header)
+
+    let authtoken = auth1_fms['X-Radiko-AuthToken']
+    let offset    = auth1_fms['X-Radiko-KeyOffset']
+    let length    = auth1_fms['X-Radiko-KeyLength']
+    return [authtoken, offset, length]
 endfunction
 function! radiko#get_swf(playername)
     if s:PM.is_available()
