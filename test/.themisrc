@@ -10,3 +10,9 @@ else
 endif
 
 call themis#option('runtimepath', g:vimproc_root)
+
+if strlen($TRAVIS_BRANCH) == 0
+    let g:is_travis_env = 1
+else
+    let g:is_travis_env = 0
+endif

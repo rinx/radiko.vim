@@ -43,22 +43,24 @@ Describe radiko
     Assert Equals(res, 0)
   End
 
-  It auth1_fms
-    let [authtoken, offset, length] = radiko#auth_auth1_fms()
-    Assert NotEmpty(authtoken)
-    Assert NotEmpty(offset)
-    Assert NotEmpty(length)
-  End
+  if g:is_travis_env != 0
+    It auth1_fms
+      let [authtoken, offset, length] = radiko#auth_auth1_fms()
+      Assert NotEmpty(authtoken)
+      Assert NotEmpty(offset)
+      Assert NotEmpty(length)
+    End
 
-  It authorization
-    let [authtoken, auth2_fms] = radiko#auth()
-    Assert NotEmpty(authtoken)
-    Assert NotEmpty(auth2_fms)
-  End
+    It authorization
+      let [authtoken, auth2_fms] = radiko#auth()
+      Assert NotEmpty(authtoken)
+      Assert NotEmpty(auth2_fms)
+    End
 
-  It fetch stations
-    let res = radiko#fetch_stations()
-    Assert NotEmpty(res)
-  End
+    It fetch stations
+      let res = radiko#fetch_stations()
+      Assert NotEmpty(res)
+    End
+  endif
 
 End
