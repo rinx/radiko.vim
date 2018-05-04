@@ -1,8 +1,9 @@
 Describe radiko
 
   Before
-    let g:radiko#radiko_playername = 'player_4.1.0.00.swf'
-    let g:radiko#play_command = "rtmpdump -v -r 'rtmpe://f-radiko.smartstream.ne.jp' --app '%%STA_ID%%/_definst_' --playpath 'simul-stream.stream' -W 'http://radiko.jp/player/swf/" . g:radiko#radiko_playername . "' -C  S:'' -C S:'' -C S:'' -C S:%%AUTH_TOKEN%% --live --quiet | mplayer - -really-quiet"
+    let g:radiko#radiko_playerpath = 'apps/js/flash'
+    let g:radiko#radiko_playername = 'myplayer-release.swf'
+    let g:radiko#play_command = "rtmpdump -v -r 'rtmpe://f-radiko.smartstream.ne.jp' --app '%%STA_ID%%/_definst_' --playpath 'simul-stream.stream' -W 'http://radiko.jp/" . g:radiko#radiko_playerpath . "/" . g:radiko#radiko_playername . "' -C  S:'' -C S:'' -C S:'' -C S:%%AUTH_TOKEN%% --live --quiet | mplayer - -really-quiet"
   End
 
   It ProcessManager available
@@ -14,7 +15,7 @@ Describe radiko
 
   It correct play command name
     let res = radiko#gen_play_command('authToken', 'stationId')
-    let expect = "rtmpdump -v -r 'rtmpe://f-radiko.smartstream.ne.jp' --app 'stationId/_definst_' --playpath 'simul-stream.stream' -W 'http://radiko.jp/player/swf/player_4.1.0.00.swf' -C  S:'' -C S:'' -C S:'' -C S:authToken --live --quiet | mplayer - -really-quiet"
+    let expect = "rtmpdump -v -r 'rtmpe://f-radiko.smartstream.ne.jp' --app 'stationId/_definst_' --playpath 'simul-stream.stream' -W 'http://radiko.jp/apps/js/flash/myplayer-release.swf' -C  S:'' -C S:'' -C S:'' -C S:authToken --live --quiet | mplayer - -really-quiet"
     Assert Equals(res, expect)
   End
 
@@ -34,7 +35,7 @@ Describe radiko
   End
 
   It get swf correctly
-    let res = radiko#get_swf(g:radiko#radiko_playername)
+    let res = radiko#get_swf(g:radiko#radiko_playerpath, g:radiko#radiko_playername)
     Assert Equals(res, 0)
   End
 
