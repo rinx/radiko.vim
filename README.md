@@ -14,6 +14,7 @@ Dependencies
 * mplayer
 * rtmpdump
 * swftools
+* wget
 
 
 Usage

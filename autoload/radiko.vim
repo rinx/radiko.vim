@@ -10,8 +10,12 @@ let s:XML = s:V.import('Web.XML')
 let s:L = s:V.import('Data.List')
 
 " config
-let g:radiko#radiko_playername = get(g:, 'radiko#radiko_playername', 'player_4.1.0.00.swf')
-let g:radiko#play_command = get(g:, 'radiko#play_command', "rtmpdump -v -r 'rtmpe://f-radiko.smartstream.ne.jp' --app '%%STA_ID%%/_definst_' --playpath 'simul-stream.stream' -W 'http://radiko.jp/player/swf/" . g:radiko#radiko_playername . "' -C  S:'' -C S:'' -C S:'' -C S:%%AUTH_TOKEN%% --live --quiet | mplayer - -really-quiet")
+let g:radiko#radiko_playerpath = get(g:, 'radiko#radiko_playerpath', 'apps/js/flash')
+let g:radiko#radiko_playername = get(g:, 'radiko#radiko_playername', 'myplayer-release.swf')
+let g:radiko#play_command = get(g:, 'radiko#play_command',
+            \ "rtmpdump -v -r 'rtmpe://f-radiko.smartstream.ne.jp' --app '%%STA_ID%%/_definst_' --playpath 'simul-stream.stream' -W 'http://radiko.jp/"
+            \ . g:radiko#radiko_playerpath . "/" . g:radiko#radiko_playername
+            \ . "' -C  S:'' -C S:'' -C S:'' -C S:%%AUTH_TOKEN%% --live --quiet | mplayer - -really-quiet")
 let g:radiko#cache_dir = get(g:, 'radiko#cache_dir', expand("~/.cache/radiko-vim"))
 let g:radiko#cache_file = get(g:, 'radiko#cache_file', 'stations.cache')
 
@@ -192,9 +196,9 @@ endfunction
 
 function! radiko#auth()
     if !filereadable(g:radiko#cache_dir . '/' . g:radiko#radiko_playername)
-        call radiko#get_swf(g:radiko#radiko_playername)
+        call radiko#get_swf(g:radiko#radiko_playerpath, g:radiko#radiko_playername)
     endif
-    if !filereadable(g:radiko#cache_dir . '/authkey.jpg')
+    if !filereadable(g:radiko#cache_dir . '/authkey.png')
         call radiko#extract_authkey(g:radiko#radiko_playername)
     endif
 
@@ -208,8 +212,8 @@ function! radiko#auth()
                 \   "data": "\r\n",
                 \   "headers": {
                 \     "pragma": "no-cache",
-                \     "X-Radiko-App": "pc_1",
-                \     "X-Radiko-App-Version": "2.0.1",
+                \     "X-Radiko-App": "pc_ts",
+                \     "X-Radiko-App-Version": "4.0.0",
                 \     "X-Radiko-User": "test-stream",
                 \     "X-Radiko-Device": "pc",
                 \     "X-Radiko-AuthToken": authtoken,
@@ -227,8 +231,8 @@ function! radiko#auth_auth1_fms()
                 \   "data": "\r\n",
                 \   "headers": {
                 \     "pragma": "no-cache",
-                \     "X-Radiko-App": "pc_1",
-                \     "X-Radiko-App-Version": "2.0.1",
+                \     "X-Radiko-App": "pc_ts",
+                \     "X-Radiko-App-Version": "4.0.0",
                 \     "X-Radiko-User": "test-stream",
                 \     "X-Radiko-Device": "pc"
                 \   },
@@ -240,10 +244,10 @@ function! radiko#auth_auth1_fms()
     let length    = auth1_fms['X-Radiko-KeyLength']
     return [authtoken, offset, length]
 endfunction
-function! radiko#get_swf(playername)
+function! radiko#get_swf(playerpath, playername)
     if s:PM.is_available()
         if executable('wget')
-            let cmd = 'wget http://radiko.jp/player/swf/' . a:playername . ' -O ' . g:radiko#cache_dir . '/' . a:playername
+            let cmd = 'wget http://radiko.jp/' . a:playerpath . '/' . a:playername . ' -O ' . g:radiko#cache_dir . '/' . a:playername
             let out = s:VP.system(cmd,
                         \ {
                         \   "use_vimproc": 1,
@@ -265,7 +269,7 @@ endfunction
 function! radiko#extract_authkey(playername)
     if s:PM.is_available()
         if executable('swfextract')
-            let cmd = 'swfextract -b 14 ' . g:radiko#cache_dir . '/' . a:playername . ' -o ' . g:radiko#cache_dir . '/authkey.jpg'
+            let cmd = 'swfextract -b 12 ' . g:radiko#cache_dir . '/' . a:playername . ' -o ' . g:radiko#cache_dir . '/authkey.png'
             let out = s:VP.system(cmd,
                         \ {
                         \   "use_vimproc": 1,
@@ -287,7 +291,7 @@ endfunction
 function! radiko#extract_partialkey(offset, length)
     if s:PM.is_available()
         if executable('dd') && executable('base64')
-            let cmd = 'dd if=' . g:radiko#cache_dir . '/authkey.jpg bs=1 skip=' . a:offset . ' count=' . a:length . ' 2> /dev/null | base64'
+            let cmd = 'dd if=' . g:radiko#cache_dir . '/authkey.png bs=1 skip=' . a:offset . ' count=' . a:length . ' 2> /dev/null | base64'
             let out = s:VP.system(cmd,
                         \ {
                         \   "use_vimproc": 1,
