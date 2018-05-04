@@ -24,6 +24,9 @@ If you use OSX and homebrew, you can get them using following commands:
 <
 Also, `Unite.vim` and `vimproc.vim` are required to use this plugin.
 
+After install, you should execute `:RadikoUpdateStations` command to initalize station list.
+(There's no need to execute it after `~/.cache/radiko-vim/stations.cache` was created.)
+
 ==============================================================================
 USAGE					*radiko-usage*
 

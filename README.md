@@ -20,6 +20,9 @@ Dependencies
 Usage
 ---
 
+First, you should execute `:RadikoUpdateStations` command to initalize station list.  
+(There's no need to execute it after `~/.cache/radiko-vim/stations.cache` was created.)
+
 * `:RadikoPlay <station_id>` : Play radiko station.
 * `:RadikoStop` : Stop the playing radiko station.
 * `:RadikoUpdateStations` : Update the station list.
